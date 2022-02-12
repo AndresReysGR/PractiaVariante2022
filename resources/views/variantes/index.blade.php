@@ -7,6 +7,12 @@
 </head>
 <body>
     <h1>Covid19 variant list</h1>
+    @if(Session::has('success'))
+        <p style="color: green;">{{Session::get('success')}}</p>
+    @endif
+    @if(Session::has('error'))
+        <p style="color: red;">{{Session::get('error')}}</p>
+    @endif
     <p>*Updated Juanuary 28th</p>
     <a href="{{route('variantes.create')}}">Add Variant</a>
     <table>
@@ -19,6 +25,7 @@
                 <th>Assigned number</th>
                 <th>Description</th>
                 <th>Who name</th>
+                <th>Actions</th>
             </tr>
         </thead>
         <tBody>
@@ -31,6 +38,13 @@
                     <td>{{$variante->assigned_number}}</td>
                     <td>{{$variante->description}}</td>
                     <td>{{$variante->who_name}}</td>
+                    <td><a href="{{route('variantes.edit', $variante->id)}}">Edit</a>
+                        <form method="post" action="{{route('variantes.destroy', $variante->id)}}">
+                        @csrf
+                        @method('delete')
+                        <button type="submit">Delete</button>
+                    </form>
+                    </td>
                 </tr>
             @endforeach
         </tBody>
